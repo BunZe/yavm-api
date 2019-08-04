@@ -4,9 +4,11 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors')
+var networkFetcher = require('./lib/networkFetcher')
 
 var indexRouter = require('./routes/index');
 var apiRouter = require('./routes/api');
+var db = require('./db')
 
 var app = express();
 app.use(cors())
@@ -28,6 +30,17 @@ app.use('/api', apiRouter);
 app.use(function(req, res, next) {
   next(createError(404));
 });
+
+db.connect('mongodb://localhost:27017/yavm', function(err) {
+  if (err) {
+    console.log('Unable to connect to Mongo.')
+    process.exit(1);
+  }
+})
+
+setInterval(() => {
+  networkFetcher(db);
+}, 30*1000);
 
 // error handler
 app.use(function(err, req, res, next) {
