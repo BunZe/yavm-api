@@ -31,7 +31,14 @@ app.use(function(req, res, next) {
   next(createError(404));
 });
 
-db.connect('mongodb://localhost:27017/yavm', function(err) {
+// Check for production
+
+let url = 'mongodb://localhost:27017/yavm'
+if (process.env.NODE_ENV === 'production'){
+url = process.PROD_MONGODB;
+}
+
+db.connect(url, function(err) {
   if (err) {
     console.log('Unable to connect to Mongo.')
     process.exit(1);
