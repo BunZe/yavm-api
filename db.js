@@ -15,7 +15,12 @@ exports.connect = function(url, done) {
 }
 
 exports.get = function() {
-  return state.db.db('yavm');
+  if(process.env.NODE_ENV === 'production'){
+    return state.db.db('heroku_jjz84bsv');
+  } else {
+    return state.db.db('yavm')
+  }
+  
 }
 
 exports.close = function(done) {
