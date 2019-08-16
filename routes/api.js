@@ -12,7 +12,8 @@ router.get('/', function(req, res, next) {
 
 router.get('/data', async function(req, res, next) {
   try {
-    const data = await getAllAircraft();
+    const stations = await getAllStations();
+    const data = {pilots: stations.pilots, atc: stations.atc};
     res.json(data);
   } catch (error) {
     console.log(error);
@@ -29,16 +30,17 @@ router.get('/data/:callsign', async function(req, res, next) {
 });
 
 
-const getAllAircraft = async () => {
+const getAllStations = async () => {
   let data = []
   try {
     const collection = db.get().collection('current_flights');
-    data = await collection.find({}).toArray();
+    pilots = await collection.find({'type': 'pilot'}).toArray();
+    atc = await collection.find({'type': 'atc'}).toArray();
 
   } catch (error) {
     console.log(error)
   } finally {
-    return data;
+    return {pilots, atc};
   }
 }
 

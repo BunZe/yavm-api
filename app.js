@@ -45,6 +45,7 @@ db.connect(url, function(err) {
   }
 })
 
+networkFetcher(db);
 setInterval(() => {
   networkFetcher(db);
 }, 30*1000);
