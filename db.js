@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 var MongoClient = require('mongodb').MongoClient
 
 var state = {
@@ -7,7 +8,7 @@ var state = {
 exports.connect = function(url, done) {
   if (state.db) return done()
 
-  MongoClient.connect(url, function(err, db) {
+  MongoClient.connect(url, { useNewUrlParser: true }, function(err, db) {
     if (err) return done(err)
     state.db = db
     done()
@@ -15,10 +16,15 @@ exports.connect = function(url, done) {
 }
 
 exports.get = function() {
-  if(process.env.NODE_ENV === 'production'){
-    return state.db.db('heroku_jjz84bsv');
+  if(process.env.NODE_ENV === 'production' && state.db !== null){
+    return state.db.db(process.env.DB_NAME);
   } else {
-    return state.db.db('yavm')
+    try {
+      const db = state.db.db('yaam')
+      return db
+    } catch (error) {
+      return null
+    }
   }
   
 }

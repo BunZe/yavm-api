@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+var dotenv = require('dotenv').config();
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -6,7 +8,6 @@ var logger = require('morgan');
 var cors = require('cors')
 var networkFetcher = require('./lib/networkFetcher')
 
-var indexRouter = require('./routes/index');
 var apiRouter = require('./routes/api');
 var db = require('./db')
 
@@ -21,10 +22,12 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+console.log(path.join(__dirname, 'public'));
+
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/api', apiRouter);
+app.use('/', apiRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -33,9 +36,9 @@ app.use(function(req, res, next) {
 
 // Check for production
 
-let url = 'mongodb://localhost:27017/yavm'
+let url = 'mongodb://localhost:27017/'
 if (process.env.NODE_ENV === 'production'){
-url = process.PROD_MONGODB;
+  url = process.env.MONGO_URI;
 }
 
 db.connect(url, function(err) {

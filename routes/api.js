@@ -10,6 +10,10 @@ router.get('/', function(req, res, next) {
   res.send('YAVM API: Version 0.1');
 });
 
+router.get('/firs', async (req, res, next) => {
+
+});
+
 router.get('/data', async function(req, res, next) {
   try {
     const stations = await getAllStations();
@@ -31,16 +35,16 @@ router.get('/data/:callsign', async function(req, res, next) {
 
 
 const getAllStations = async () => {
-  let data = []
+  let pilots = []
+  let atc = []
   try {
     const collection = db.get().collection('current_flights');
     pilots = await collection.find({'type': 'pilot'}).toArray();
     atc = await collection.find({'type': 'atc'}).toArray();
-
+    return {pilots, atc};
   } catch (error) {
     console.log(error)
-  } finally {
-    return {pilots, atc};
+    return {pilots: [], atc: []}
   }
 }
 
@@ -58,9 +62,8 @@ const getFocusedAircraft = async (callsign) => {
 
   } catch (error) {
     console.log(error)
-  } finally {
-    return data;
   }
+  return data;
 }
 
 
