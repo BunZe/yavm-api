@@ -5,7 +5,7 @@ const getFocusedAircraft = async (callsign) => {
     let data = null;
     try {
       const current_flights = db.get().collection('current_flights');
-      const trails = db.get().get().collection('flights_history');
+      const trails = db.get().collection('flights_history');
       const flight = await current_flights.findOne({callsign: callsign});
       const { cid } = flight;
       const trailDoc = await trails.findOne({callsign: callsign, cid: cid});
