@@ -6,7 +6,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors')
-var networkFetcher = require('./lib/networkFetcher')
+var dataJob = require('./NetworkDataManager/manager')
 
 var apiRouter = require('./routes/api');
 var db = require('./db')
@@ -48,9 +48,9 @@ db.connect(url, function(err) {
   }
 })
 
-networkFetcher(db);
+dataJob()
 setInterval(() => {
-  networkFetcher(db);
+  dataJob();
 }, 30*1000);
 
 // error handler
