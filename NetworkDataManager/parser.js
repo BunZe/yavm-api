@@ -6,7 +6,7 @@ const VATSIMParser = async (rawData) => {
     
     const splitRawData = rawData.split('\r\n');
     
-    const parsedData = {pilots: [], atc: []};
+    const parsedData = [];
 
     /* 
     IMPORTANT - Fetching, Parsing and Inserting data takes time...
@@ -37,7 +37,7 @@ const VATSIMParser = async (rawData) => {
                 timestamp: time,
                 type: "pilot",
             };
-            parsedData.pilots.push(flightObject);
+            parsedData.push(flightObject);
         } else {
             const atcObject = {
                 callsign: getField(splitData, "callsign"),
@@ -47,7 +47,7 @@ const VATSIMParser = async (rawData) => {
                 timestamp: time,
                 type: "atc",
             }
-            parsedData.atc.push(atcObject);
+            parsedData.push(atcObject);
         }
     }
     return parsedData;

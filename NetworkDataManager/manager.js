@@ -26,20 +26,19 @@ async function runJob() {
         const parseTime = performance.now();
         console.log(`[*] Parsed data after ${parseTime-fetchTime} ms.`);
 
-        // Insert Data into our database
-        const stations = parsedData.pilots.concat(parsedData.atc);
-        await controller.updateAllStations(stations);
+        // Insert Data into our database;
+        await controller.updateAllStations(parsedData);
         const insertTime = performance.now();
         console.log(`[*] Inseted data into Mongo after ${insertTime-parseTime} ms.`);
 
         // Remove old stations, filtering them out based on their timestamp.
-        const lastTimestamp = stations[0].timestamp;
+        const lastTimestamp = parsedData[0].timestamp;
         await controller.cleanOldStations(lastTimestamp);
         const cleanTime = performance.now();
         console.log(`[*] Cleaned old data from Mongo after ${cleanTime-insertTime} ms.`);
 
         // Update pilot trails
-        await updateTrails(parsedData.pilots);
+        await updateTrails(parsedData);
         const trailUpdateTime = performance.now();
         console.log(`[*] Updated flight trails after ${trailUpdateTime-cleanTime} ms.`);
 
@@ -60,13 +59,15 @@ async function runJob() {
 /*
     Takes all pilots and updates their pirep/trail list.
 */
-async function updateTrails(pilots) {
-    for (const flight of pilots) {
-        const {callsign, cid, coords, altitude, speed, heading, timestamp } = flight;
-        const {lat, long} = coords;
-        const pirep = {lat, lng: long, alt: altitude, spd: speed, hd: heading, ts: timestamp};
-
-        await controller.updateTrail(callsign, cid, pirep);
+async function updateTrails(data) {
+    for (const flight of data) {
+        if(flight.type === "pilot") {
+            const {callsign, cid, coords, altitude, speed, heading, timestamp } = flight;
+            const {lat, long} = coords;
+            const pirep = {lat, lng: long, alt: altitude, spd: speed, hd: heading, ts: timestamp};
+    
+            await controller.updateTrail(callsign, cid, pirep);
+        }
     }
 }
 
