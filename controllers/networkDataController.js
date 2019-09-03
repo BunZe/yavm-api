@@ -42,7 +42,7 @@ const getAirportByICAO = async (icao) => {
 }
 
 const cleanOldStations = async (lastTimeStamp) => {
-  await db.get().collection('airports').deleteMany({timestamp: {$lt: lastTimeStamp}})
+  await db.get().collection('current_flights').deleteMany({timestamp: {$lt: lastTimeStamp}})
 }
 
 const updateTrail = async (callsign, cid, pirep) => {
