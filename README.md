@@ -119,7 +119,7 @@ The `NetworkManager`  folder is where you should be looking around. It is struct
 
 Only the required fields are, well, required, but you'll be missing on a lot of cool features, depending on what you leave out. 
 
-`manager.js` contains the basic "job" that runs and connects everything. This includes fetching, parsing, updating and cleaning the database of old data. You can have a look, but its recommended not to touch it.
+`manager.js` contains the basic "job" that runs and connects everything. This includes fetching, parsing, updating and cleaning the database of old data. You can have a look, but it’s recommended not to touch it.
 
 ## Airport Data
 You probably noticed the `dep` and `arr` objects back in the object structure we defined. Using the amazing [OpenFlights](https://openflights.org/data.html)  YAAM can add some useful airport data. To get this working, first run `scripts/insertAirporsAndAirlineData.js`, which will create a new collection in MongoDB called "airports", containing all the data we need. You need to run this script ONCE, ever. To use this data, you'll need to head over to `NetworkDataManager/utils.js`, which contains `getAirportInfo(ICAO)`. This function simply returns that exact object structure, with the airport data for the given ICAO code. 
@@ -128,14 +128,14 @@ See the VATSIM implementation if you need help implementing it yourself.
 
 
 ## Support:
-Reach out for me on support the [YAAM facebook page](https://www.facebook.com/yetanotherairplanemap)or on Discord: ****BunZe #2032****
+Reach out for me on support the [YAAM facebook page](https://www.facebook.com/yetanotherairplanemap) or on Discord: ****BunZe #2032****
 
 ## Roadmap
 Workin on it...
 
 ## Contributing
-YAAM is a community-driven project and is always looking for contributions. Feel free to review the code, fork and add features, fix bugs, etc. If you need to reach me checkout the Support sections.
+YAAM is a community-driven project and is always looking for contributions. Feel free to review the code, fork and add features, fix bugs, etc. If you need to reach me check out the Support sections.
 
 ## Shoutouts
-You should check out OpenFlights, a lot of their data is used in this project, and I couldn't be more grateful for using them. 
+You should check out OpenFlights. A lot of their data is used in this project, and I couldn't be more grateful for using them. 
 [https://openflights.org/](https://openflights.org/)
