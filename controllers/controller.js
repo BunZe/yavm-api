@@ -14,8 +14,9 @@ const getFocusedAircraft = async (callsign) => {
       data = flight;
   
     } catch (error) {
-      return data;
+      console.log(error);
     }
+    return data;
   }
 
 const getAllStations = async () => {
