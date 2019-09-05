@@ -15,7 +15,7 @@ const getAirportInfo = async (airport) => {
         }
     }
 
-    const result = controller.getAirportByICAO(airport);
+    const result = await controller.getAirportByICAO(airport);
     if (result != null) return result
     return airportObject
 
