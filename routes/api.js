@@ -24,8 +24,14 @@ router.get('/data', async function(req, res, next) {
 
 router.get('/data/:callsign', async function(req, res, next) {
   try {
-    const data = await aircraftController.getFocusedAircraft(req.params.callsign);
-    res.json(data);
+    const data = await aircraftController.getFocusedAircraft(req.params.callsign); 
+    if(data == null){
+      res.status(404)
+      res.send("aircraft not found");
+      
+    } else {
+      res.json(data);
+    }
   } catch (error) {
     console.log(error);
   }

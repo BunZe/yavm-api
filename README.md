@@ -36,8 +36,7 @@ npm install
 ```  
 
 ## Usage  
-
-To start the app, run:  
+  
 
 ```bash  
 npm start  
