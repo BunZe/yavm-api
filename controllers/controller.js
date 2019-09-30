@@ -7,16 +7,21 @@ const getFocusedAircraft = async (callsign) => {
       const current_flights = db.get().collection('current_flights');
       const trails = db.get().collection('flights_history');
       const flight = await current_flights.findOne({callsign: callsign});
+
+      if (flight.type === 'atc') {
+        return flight;
+      }
+      
       const { cid } = flight;
       const trailDoc = await trails.findOne({callsign: callsign, cid: cid});
   
       flight["trail"] = trailDoc.trail;
       data = flight;
+      return data;
   
     } catch (error) {
       return data;
     }
-    return data;
   }
 
 const getAllStations = async () => {
