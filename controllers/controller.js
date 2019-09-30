@@ -33,7 +33,18 @@ const getAllStations = async () => {
     }
   }
 
+const getAirports = async () => {
+  try {
+    const collection = db.get().collection('airports');
+    return collection.find().toArray();
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+}
+
 module.exports = {
     getFocusedAircraft,
     getAllStations,
+    getAirports,
 }
