@@ -1,4 +1,5 @@
 /* eslint-disable no-undef */
+var childProcess = require('child_process')
 var dotenv = require('dotenv').config();
 var createError = require('http-errors');
 var express = require('express');
@@ -6,7 +7,6 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors')
-var dataJob = require('./NetworkDataManager/manager')
 
 var apiRouter = require('./routes/api');
 var db = require('./db')
@@ -48,10 +48,6 @@ db.connect(url, function(err) {
   }
 })
 
-dataJob()
-setInterval(() => {
-  dataJob();
-}, 30*1000);
 
 // error handler
 app.use(function(err, req, res, next) {
@@ -62,6 +58,12 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+
+var child = childProcess.exec("node ./NetworkDataWorker/worker.js");
+child.stdout.on('data', function(data) {
+  console.log(data.toString()); 
 });
 
 module.exports = app;

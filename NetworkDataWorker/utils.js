@@ -1,4 +1,4 @@
-const networkDataController = require('../controllers/networkDataController')
+const controller = require('./controller')
 
 const getAirportInfo = async (airport) => {
     const airportObject = {
@@ -15,7 +15,7 @@ const getAirportInfo = async (airport) => {
         }
     }
 
-    const result = networkDataController.getAirportByICAO(airport);
+    const result = await controller.getAirportByICAO(airport);
     if (result != null) return result
     return airportObject
 

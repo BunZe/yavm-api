@@ -38,8 +38,7 @@ npm install
 ```  
 
 ## Usage  
-
-To start the app, run:  
+  
 
 ```bash  
 npm start  
@@ -52,7 +51,7 @@ Data for a specific aircraft is served at `/data/<callsign>`.
 
 ## Integrating your own data
 Yet Another Airplane Maps backend is powered by Node, Express.js, and MongoDB and is written completely in Javascript. I've split the fetching and parsing code to make it easier to integrate your own data into the API, which will then be served to the map client. 
-The `NetworkManager`  folder is where you should be looking around. It is structured like this:
+The `NetworkDataWorker`  folder is where you should be looking around. It is structured like this:
 
 `fetcher.js` is responsible for fetching raw data from a provider, and pass it on as-is to the parser. VATSIM data is served as a large text file, but JSONs, XMLs or whatever will do just fine. This is up to you because the data is interacted with only in the next step.
 

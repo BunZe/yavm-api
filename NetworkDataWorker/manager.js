@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 const db = require('../db');
-const controller = require('../controllers/networkDataController');
+const controller = require('./controller');
 const { networkFetch } = require('./fetcher');
 const parser = require('./parser');
 const {performance} = require('perf_hooks');
